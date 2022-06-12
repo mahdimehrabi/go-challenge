@@ -1,6 +1,7 @@
 package main
 
 import (
+	"challange/app/infrastracture"
 	"challange/app/routes"
 	"context"
 	"log"
@@ -11,7 +12,7 @@ import (
 )
 
 func main() {
-	l := log.New(os.Stdout, "segment ", log.LstdFlags)
+	l := infrastracture.NewLogger()
 
 	segmentRoutes := routes.NewSegmentRoutes()
 
@@ -23,7 +24,7 @@ func main() {
 	s := http.Server{
 		Addr:         "localhost:8000",  // configure the bind address
 		Handler:      sm,                // set the default handler
-		ErrorLog:     l,                 // set the logger for the server
+		ErrorLog:     l.LG,              // set the logger for the server
 		ReadTimeout:  5 * time.Second,   // max time to read request from the client
 		WriteTimeout: 10 * time.Second,  // max time to write response to the client
 		IdleTimeout:  120 * time.Second, // max time for connections using TCP Keep-Alive
@@ -31,11 +32,11 @@ func main() {
 
 	// start the server
 	go func() {
-		l.Println("Starting server on port 8000")
+		l.LG.Println("Starting server on port 8000")
 
 		err := s.ListenAndServe()
 		if err != nil {
-			l.Printf("Error starting server: %s\n", err)
+			l.LG.Printf("Error starting server: %s\n", err)
 			os.Exit(1)
 		}
 	}()
