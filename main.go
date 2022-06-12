@@ -1,8 +1,8 @@
 package main
 
 import (
+	"challange/app/routes"
 	"context"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -13,11 +13,11 @@ import (
 func main() {
 	l := log.New(os.Stdout, "segment ", log.LstdFlags)
 
-	// create a new serve mux and register the handlers
+	segmentRoutes := routes.NewSegmentRoutes()
+
+	// create a new serve mux and register routes
 	sm := http.NewServeMux()
-	sm.HandleFunc("/", func(rw http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(rw, "Hello World")
-	})
+	segmentRoutes.AddRoutes(sm)
 
 	// create a new server
 	s := http.Server{
