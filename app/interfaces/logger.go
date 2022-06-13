@@ -4,5 +4,5 @@ package interfaces
 //of our application use that for getting logger
 //for saving time I keep this interface simple
 type Logger interface {
-	Errorf(err string)
+	Error(err string)
 }

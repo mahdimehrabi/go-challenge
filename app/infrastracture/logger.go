@@ -9,8 +9,8 @@ type SegmentLogger struct {
 	LG *log.Logger
 }
 
-func (l *SegmentLogger) Errorf(err string) {
-	l.LG.Printf(err)
+func (l *SegmentLogger) Error(err string) {
+	l.LG.Print(err)
 }
 
 func NewLogger() *SegmentLogger {
