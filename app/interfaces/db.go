@@ -7,11 +7,11 @@ type Model interface {
 }
 
 type DB interface {
-	//for execution of query
+	//execute sql command and return rows affected count and err
 	Exec(
 		ctx context.Context,
 		query string,
-		parameters []interface{}) error
+		parameters []interface{}) (int64, error)
 
 	//get signle row
 	QueryRow(
