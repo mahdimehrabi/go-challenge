@@ -24,6 +24,6 @@ type DB interface {
 	Query(ctx context.Context,
 		query string,
 		parameters []interface{},
-		model *Model,
+		modelSlice interface{},
 	) error
 }
