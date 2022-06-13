@@ -13,7 +13,7 @@ import (
 
 func main() {
 	l := infrastracture.NewLogger()
-
+	port := os.Getenv("ServerPort")
 	segmentRoutes := routes.NewSegmentRoutes()
 
 	// create a new serve mux and register routes
@@ -22,7 +22,7 @@ func main() {
 
 	// create a new server
 	s := http.Server{
-		Addr:         "localhost:8000",  // configure the bind address
+		Addr:         ":" + port,        // configure the bind address
 		Handler:      sm,                // set the default handler
 		ErrorLog:     l.LG,              // set the logger for the server
 		ReadTimeout:  5 * time.Second,   // max time to read request from the client
@@ -32,7 +32,7 @@ func main() {
 
 	// start the server
 	go func() {
-		l.LG.Println("Starting server on port 8000")
+		l.LG.Println("Starting server on port " + port)
 
 		err := s.ListenAndServe()
 		if err != nil {
