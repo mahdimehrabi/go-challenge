@@ -31,11 +31,34 @@ func NewPgxDB(logger interfaces.Logger) *PgxDB {
 	}
 }
 
-//execute sql command and return rows affected count and err
+//Exec => execute sql command and return rows affected count and err
 func (db *PgxDB) Exec(
 	ctx context.Context,
 	query string,
 	parameters []interface{}) (int64, error) {
 	cmdTag, err := db.Conn.Exec(ctx, query, parameters...)
 	return cmdTag.RowsAffected(), err
+}
+
+//Query => for get multiple rows
+func (db *PgxDB) Query(
+	ctx context.Context,
+	query string,
+	parameters []interface{}) (slc [][]interface{}, err error) {
+	rows, err := db.Conn.Query(ctx, query, parameters...)
+	if err != nil {
+		return
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		values, err := rows.Values()
+		if err != nil {
+			//Just use error instead of writing warning method to save development time
+			db.logger.Error(fmt.Sprintf("warrning:%s", err))
+			continue
+		}
+		slc = append(slc, values)
+	}
+	return slc, nil
 }
