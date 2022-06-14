@@ -17,14 +17,55 @@ we only use PostgreSQL as database and its faster than `database/sql` package in
 
 ## Architecture , Design
 The architecture of this project is clean architecture,
-I created an image to help you understand architecture of this project better<br>
+I created an image to help you understand architecture of this project better.<br>
+![clean architecture](https://raw.githubusercontent.com/mahdimehrabi/go-challenge/main/clean.png)
 
-Used interface for getting tools like logger,db , so using another tool for example another
+Used interface for getting tools like logger, db, memoryDB so using another tool for example another
 logger or db don't force you to edit all codes of different layers.
 <br><br>
 Used [uber fx](https://github.com/uber-go/fx) as dependency injection system
 to increase readability and save more memory. 
 
-
 ## Solution 
-I have 2 solutions for this and I implemented both of them
+My solution is using redis as in memory DB and storing segment user counts
+every 24 hours on 00:00AM.<br>
+so we only execute a postgres query every 24 hours and we have needed data for next day.
+
+
+
+## Getting started
+`git clone https://github.com/mahdimehrabi/go-challenge.git` <br>
+no copy env file
+`cd gin-gorm-boilerplate`<br>
+`cp env.example .env` <br>
+
+create docker volume and start
+`docker volume create psql_data` <br>
+`docker-compose up -d ` <br>
+run migrations <br>
+`make migrate-up` <br>
+
+generate some users (seed), this command create between 0 and 1000 random users 
+,so feel free to use this command as many times as you want to create more users.<br>
+`make seed`
+
+### endpoints 
+POST `localhost:8000/users`  Create new user send 
+example request data
+```
+{
+    "ID":"fsas42aa3af",
+    "segment":"1aa1x",
+    "expiredSegment":1655209411
+}
+```
+
+GET `localhost:8000/segments/count` get segments and it user counts
+
+example response data
+```
+[
+{"title":"RU","usersCount":1},
+{"title":"z12XTowIA2","usersCount":1}
+]
+```
