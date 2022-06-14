@@ -42,6 +42,9 @@ no copy env file
 create docker volume and start <br>
 `docker volume create psql_data` <br>
 `docker-compose up -d ` <br>
+create database <br>
+`docker-compose exec database psql -U root`<br>
+`CREATE DATABASE challenge;`<br>
 run migrations <br>
 `make migrate-up` <br>
 
