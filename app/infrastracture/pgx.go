@@ -13,7 +13,7 @@ type PgxDB struct {
 	Conn   *pgx.Conn
 }
 
-func NewPgxDB(logger interfaces.Logger) *PgxDB {
+func NewPgxDB(logger SegmentLogger) PgxDB {
 	connString := fmt.Sprintf(
 		"postgres://%s:%s@%s:%s/%s",
 		os.Getenv("DBUsername"), os.Getenv("DBPassword"),
@@ -25,8 +25,8 @@ func NewPgxDB(logger interfaces.Logger) *PgxDB {
 		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
 		os.Exit(1)
 	}
-	return &PgxDB{
-		logger: logger,
+	return PgxDB{
+		logger: &logger,
 		Conn:   conn,
 	}
 }

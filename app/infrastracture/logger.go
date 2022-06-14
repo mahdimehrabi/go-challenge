@@ -13,7 +13,7 @@ func (l *SegmentLogger) Error(err string) {
 	l.LG.Print(err)
 }
 
-func NewLogger() *SegmentLogger {
+func NewLogger() SegmentLogger {
 	lg := log.New(os.Stdout, "segment ", log.LstdFlags)
-	return &SegmentLogger{LG: lg}
+	return SegmentLogger{LG: lg}
 }

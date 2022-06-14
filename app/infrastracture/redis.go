@@ -9,13 +9,13 @@ type Redis struct {
 	client *redis.Client
 }
 
-func NewRedis() *Redis {
+func NewRedis() Redis {
 	client := redis.NewClient(&redis.Options{
 		Addr:     "redis:6379",
 		Password: "",
 		DB:       0,
 	})
-	return &Redis{
+	return Redis{
 		client: client,
 	}
 }

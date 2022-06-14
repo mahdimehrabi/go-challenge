@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"challange/app/infrastracture"
 	"challange/app/interfaces"
 	"challange/app/models"
 	"context"
@@ -14,13 +15,13 @@ type UserRepository struct {
 }
 
 func NewUserRepository(
-	logger interfaces.Logger,
-	db interfaces.DB,
-	memoryDB interfaces.MemoryDB) UserRepository {
+	logger infrastracture.SegmentLogger,
+	db infrastracture.PgxDB,
+	memoryDB infrastracture.Redis) UserRepository {
 	return UserRepository{
-		db:       db,
-		logger:   logger,
-		memoryDb: memoryDB,
+		db:       &db,
+		logger:   &logger,
+		memoryDb: &memoryDB,
 	}
 }
 

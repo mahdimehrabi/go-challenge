@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"challange/app/infrastracture"
 	"challange/app/interfaces"
 	"challange/app/repository"
 	"fmt"
@@ -13,10 +14,10 @@ type SegmentController struct {
 }
 
 func NewSegmentController(
-	logger interfaces.Logger,
+	logger infrastracture.SegmentLogger,
 	userRepository repository.UserRepository) SegmentController {
 	return SegmentController{
-		logger:         logger,
+		logger:         &logger,
 		userRepository: userRepository,
 	}
 }
