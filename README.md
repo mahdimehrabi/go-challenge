@@ -30,7 +30,7 @@ to increase readability and save more memory.
 My solution is using redis as in memory DB and storing segment user counts
 every 24 hours on 00:00AM.<br>
 so we only execute a postgres query every 24 hours and we have needed data for next day.
-
+note:for your comfort in testing I just set scheduling period duration every 30seconds not every 24 hours.
 
 
 ## Getting started
