@@ -16,6 +16,9 @@ Used [pgx](https://github.com/jackc/pgx) as database interface because
 we only use PostgreSQL as database and its faster than `database/sql` package in standard library.
 
 ## Architecture , Design
+The architecture of this project is clean architecture,
+I created an image to help you understand architecture of this project better<br>
+
 Used interface for getting tools like logger,db , so using another tool for example another
 logger or db don't force you to edit all codes of different layers.
 <br><br>
