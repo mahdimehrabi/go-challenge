@@ -20,7 +20,7 @@ func (u *User) SliceToModel(data []interface{}) error {
 }
 
 type Segment struct {
-	Title      string `json:"title"`
+	Segment    string `json:"segmentTitle"`
 	UsersCount int64  `json:"usersCount"`
 }
 

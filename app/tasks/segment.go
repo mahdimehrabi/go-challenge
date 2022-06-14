@@ -50,7 +50,7 @@ func (et SegmentTask) HandleCountSegmentTask(ctx context.Context, t *asynq.Task)
 	var buff bytes.Buffer
 	for i, value := range values {
 		s := &models.Segment{
-			Title:      value[0].(string),
+			Segment:    value[0].(string),
 			UsersCount: value[1].(int64),
 		}
 		if i > 0 {
@@ -58,7 +58,7 @@ func (et SegmentTask) HandleCountSegmentTask(ctx context.Context, t *asynq.Task)
 		}
 		s.ToJson(&buff)
 	}
-	jsonStr := "{" + buff.String() + "}"
+	jsonStr := "[" + buff.String() + "]"
 
 	et.memoryDB.Set("segments", jsonStr, 24*time.Hour)
 	return nil
