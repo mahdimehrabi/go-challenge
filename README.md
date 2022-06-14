@@ -35,7 +35,7 @@ note:for your comfort in testing I just set scheduling period duration every 30s
 
 ## Getting started
 `git clone https://github.com/mahdimehrabi/go-challenge.git` <br>
-no copy env file
+copy env file <br>
 `cd gin-gorm-boilerplate`<br>
 `cp env.example .env` <br>
 
@@ -48,15 +48,15 @@ create database <br>
 run migrations <br>
 `make migrate-up` <br>
 
-generate some users (seed), this command create between 0 and 1000 random users 
+generate some users (seed), this command create between 1 and 1000 random users 
 ,so feel free to use this command as many times as you want to create more users.<br>
 `make seed`
 
-now please edit a file and save (to restart delve server) 
+now please edit a file(just add new line or tab or space is enought) and save (to restart delve server) 
 or restart docker-compose `docker-compose down && docker-compsoe up -d` <br>
 #### Now you can send your requests to Endpoints 
 POST `localhost:8000/users`  Create new user send 
-example request data
+example **request** data
 ```
 {
     "ID":"fsas42aa3af",
@@ -67,7 +67,7 @@ example request data
 
 GET `localhost:8000/segments/count` get segments and it user counts
 
-example response data
+example **response** data
 ```
 [
 {"title":"RU","usersCount":50052132},
