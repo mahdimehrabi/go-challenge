@@ -56,3 +56,7 @@ func (us *SegmentRepository) List() (users []*models.User, err error) {
 	}
 	return
 }
+
+func (us *SegmentRepository) SegmentsCount() (string, error) {
+	return us.memoryDb.Get("segments")
+}

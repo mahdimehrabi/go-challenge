@@ -37,3 +37,12 @@ func (c SegmentController) ListCreate(w http.ResponseWriter, r *http.Request) {
 		infrastracture.SuccessResponse(w, "user created successfully")
 	}
 }
+
+func (c SegmentController) SegmentsCount(writer http.ResponseWriter, request *http.Request) {
+	jsonData, err := c.segmentService.SegmentsCount()
+	if err != nil {
+		infrastracture.BadRequestResponse(writer)
+		return
+	}
+	infrastracture.SuccessResponse(writer, jsonData)
+}

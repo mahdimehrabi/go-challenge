@@ -26,3 +26,7 @@ func (ss SegmentService) CreateUser(jsonStr []byte) error {
 	expire := time.Unix(v.GetInt64("expiredSegment"), 0)
 	return ss.segmentRepository.Save(id, segment, expire)
 }
+
+func (ss SegmentService) SegmentsCount() (string, error) {
+	return ss.segmentRepository.SegmentsCount()
+}

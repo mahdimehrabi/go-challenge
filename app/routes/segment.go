@@ -17,4 +17,5 @@ func NewSegmentRoutes(sc controller.SegmentController) SegmentRoutes {
 
 func (r SegmentRoutes) AddRoutes(sm *http.ServeMux) {
 	sm.HandleFunc("/users", r.segmentController.ListCreate)
+	sm.HandleFunc("/segments/count", r.segmentController.SegmentsCount)
 }
