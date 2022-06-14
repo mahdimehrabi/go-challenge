@@ -3,27 +3,37 @@ package controller
 import (
 	"challange/app/infrastracture"
 	"challange/app/interfaces"
-	"challange/app/repository"
-	"fmt"
+	"challange/app/services"
+	"io/ioutil"
 	"net/http"
 )
 
 type SegmentController struct {
 	logger         interfaces.Logger
-	userRepository repository.UserRepository
+	segmentService services.SegmentService
 }
 
 func NewSegmentController(
 	logger infrastracture.SegmentLogger,
-	userRepository repository.UserRepository) SegmentController {
+	segmentService services.SegmentService) SegmentController {
 	return SegmentController{
 		logger:         &logger,
-		userRepository: userRepository,
+		segmentService: segmentService,
 	}
 }
 
 func (c SegmentController) ListCreate(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
-		fmt.Print("Dgsgds")
+		b, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			infrastracture.BadRequestResponse(w)
+			return
+		}
+		if err = c.segmentService.CreateUser(b); err != nil {
+			infrastracture.ErrorResponse(err, c.logger, w)
+			return
+		}
+
+		infrastracture.SuccessResponse(w, "user created successfully")
 	}
 }

@@ -2,7 +2,6 @@ package routes
 
 import (
 	"challange/app/controller"
-	"fmt"
 	"net/http"
 )
 
@@ -17,7 +16,5 @@ func NewSegmentRoutes(sc controller.SegmentController) SegmentRoutes {
 }
 
 func (r SegmentRoutes) AddRoutes(sm *http.ServeMux) {
-	sm.HandleFunc("/users", func(rw http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(rw, "Hello segment")
-	})
+	sm.HandleFunc("/users", r.segmentController.ListCreate)
 }
