@@ -1,6 +1,10 @@
 package models
 
-import "time"
+import (
+	"encoding/json"
+	"io"
+	"time"
+)
 
 type User struct {
 	ID            string    `json:"ID" binding:"required"`
@@ -18,4 +22,9 @@ func (u *User) SliceToModel(data []interface{}) error {
 type Segment struct {
 	Title      string `json:"title"`
 	UsersCount int64  `json:"usersCount"`
+}
+
+func (p *Segment) ToJson(w io.Writer) error {
+	e := json.NewEncoder(w)
+	return e.Encode(p)
 }
