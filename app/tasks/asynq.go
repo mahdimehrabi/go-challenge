@@ -5,6 +5,7 @@ import (
 	"challange/app/interfaces"
 	"github.com/hibiken/asynq"
 	"os"
+	"time"
 )
 
 //TaskAsynq -> TaskAsynq Struct
@@ -19,7 +20,7 @@ func NewTaskAsynq(
 ) TaskAsynq {
 	return TaskAsynq{
 		Logger: &logger,
-		Server: asynq.NewServer(asynq.RedisClientOpt{Addr: os.Getenv("")},
+		Server: asynq.NewServer(asynq.RedisClientOpt{Addr: os.Getenv("RedisAddr")},
 			asynq.Config{
 				Concurrency: 10,
 				Queues: map[string]int{
@@ -35,4 +36,18 @@ func NewTaskAsynq(
 //NewClient -> return asynq client don't forget to close it
 func (t *TaskAsynq) NewClient() *asynq.Client {
 	return asynq.NewClient(asynq.RedisClientOpt{Addr: os.Getenv("RedisAddr")})
+}
+
+//NewScheduler -> return asynq periodic scheduler
+func (t *TaskAsynq) NewScheduler() *asynq.Scheduler {
+	loc, err := time.LoadLocation("Asia/Tehran")
+	if err != nil {
+		panic(err)
+	}
+	return asynq.NewScheduler(
+		asynq.RedisClientOpt{Addr: os.Getenv("RedisAddr")},
+		&asynq.SchedulerOpts{
+			Location: loc,
+		},
+	)
 }

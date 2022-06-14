@@ -12,7 +12,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"os/signal"
 	"time"
 )
 
@@ -31,6 +30,8 @@ func Bootstrap(
 	logger infrastracture.SegmentLogger,
 	segmentRoutes routes.SegmentRoutes,
 	db infrastracture.PgxDB,
+	taskAsynq tasks.TaskAsynq,
+	segmentTask tasks.SegmentTask,
 ) {
 	port := os.Getenv("ServerPort")
 
@@ -48,28 +49,50 @@ func Bootstrap(
 		IdleTimeout:  120 * time.Second, // max time for connections using TCP Keep-Alive
 	}
 
-	// start the server
-	go func() {
-		logger.LG.Println("Starting server on port " + port)
+	lifecycle.Append(fx.Hook{
+		OnStart: func(ctx context.Context) error {
 
-		err := s.ListenAndServe()
-		if err != nil {
-			logger.LG.Printf("Error starting server: %s\n", err)
-			os.Exit(1)
-		}
-	}()
+			// start the server
+			go func() {
+				logger.LG.Println("Starting server on port " + port)
 
-	// trap sigterm or interupt and gracefully shutdown the server
-	c := make(chan os.Signal, 1)
-	signal.Notify(c, os.Interrupt)
-	signal.Notify(c, os.Kill)
+				err := s.ListenAndServe()
+				if err != nil {
+					logger.LG.Printf("Error starting server: %s\n", err)
+					os.Exit(1)
+				}
+			}()
 
-	// Block until a signal is received.
-	sig := <-c
-	log.Println("Got signal:", sig)
+			//asynq task handler
+			go func() {
+				tasksStruct := tasks.NewTasks(&logger, taskAsynq, segmentTask)
+				err := tasksStruct.HandleTasks()
+				if err != nil {
+					logger.Error("Failed to run asynq handlers:" + err.Error())
+				}
+			}()
+			//periodic task scheduler
+			go func() {
+				task, err := segmentTask.NewCountSegmentTask()
+				if err != nil {
+					logger.Error("Failed to start task for counting segments:" + err.Error())
+				}
+				scheduler := taskAsynq.NewScheduler()
+				entryID, err := scheduler.Register("@every 30s", task)
+				if err != nil {
+					logger.Error("Failed to start task for counting segments:" + err.Error())
+				}
+				log.Printf("registered an entry: %q\n", entryID)
 
-	// gracefully shutdown the server, waiting max 30 seconds for current operations to complete
-	ctx, _ := context.WithTimeout(context.Background(), 30*time.Second)
-	s.Shutdown(ctx)
+				if err := scheduler.Run(); err != nil {
+					logger.Error("Failed to start task for counting segments:" + err.Error())
+				}
+			}()
+			return nil
+		},
+		OnStop: func(ctx context.Context) error {
+			return s.Shutdown(ctx)
+		},
+	})
 
 }
