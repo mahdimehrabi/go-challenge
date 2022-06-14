@@ -24,6 +24,5 @@ type DB interface {
 	Query(ctx context.Context,
 		query string,
 		parameters []interface{},
-		modelSlice interface{},
-	) error
+	) (slc [][]interface{}, err error)
 }
