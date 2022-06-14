@@ -39,7 +39,7 @@ no copy env file
 `cd gin-gorm-boilerplate`<br>
 `cp env.example .env` <br>
 
-create docker volume and start
+create docker volume and start <br>
 `docker volume create psql_data` <br>
 `docker-compose up -d ` <br>
 run migrations <br>
