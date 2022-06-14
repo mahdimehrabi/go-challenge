@@ -8,24 +8,24 @@ import (
 	"time"
 )
 
-type UserRepository struct {
+type SegmentRepository struct {
 	logger   interfaces.Logger
 	db       interfaces.DB
 	memoryDb interfaces.MemoryDB
 }
 
-func NewUserRepository(
+func NewSegmentRepository(
 	logger infrastracture.SegmentLogger,
 	db infrastracture.PgxDB,
-	memoryDB infrastracture.Redis) UserRepository {
-	return UserRepository{
+	memoryDB infrastracture.Redis) SegmentRepository {
+	return SegmentRepository{
 		db:       &db,
 		logger:   &logger,
 		memoryDb: &memoryDB,
 	}
 }
 
-func (us *UserRepository) Save(userID string, segment string, ExpiredSegment time.Time) error {
+func (us *SegmentRepository) Save(userID string, segment string, ExpiredSegment time.Time) error {
 	ctx := context.TODO()
 	parameters := []interface{}{
 		userID, segment, ExpiredSegment,
@@ -37,7 +37,7 @@ func (us *UserRepository) Save(userID string, segment string, ExpiredSegment tim
 	return err
 }
 
-func (us *UserRepository) List() (users []*models.User, err error) {
+func (us *SegmentRepository) List() (users []*models.User, err error) {
 	ctx := context.TODO()
 
 	values, err := us.db.Query(

@@ -8,11 +8,11 @@ import (
 )
 
 type SegmentService struct {
-	userRepository *repository.UserRepository
+	segmentRepository *repository.SegmentRepository
 }
 
-func NewSegmentService(userRepository repository.UserRepository) SegmentService {
-	return SegmentService{userRepository: &userRepository}
+func NewSegmentService(segmentRepository repository.SegmentRepository) SegmentService {
+	return SegmentService{segmentRepository: &segmentRepository}
 }
 
 func (ss SegmentService) CreateUser(jsonStr []byte) error {
@@ -24,5 +24,5 @@ func (ss SegmentService) CreateUser(jsonStr []byte) error {
 	id := string(v.GetStringBytes("ID"))
 	segment := string(v.GetStringBytes("segment"))
 	expire := time.Unix(v.GetInt64("expiredSegment"), 0)
-	return ss.userRepository.Save(id, segment, expire)
+	return ss.segmentRepository.Save(id, segment, expire)
 }
