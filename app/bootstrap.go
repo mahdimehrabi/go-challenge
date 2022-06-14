@@ -26,6 +26,7 @@ func Bootstrap(
 	lifecycle fx.Lifecycle,
 	logger infrastracture.SegmentLogger,
 	segmentRoutes routes.SegmentRoutes,
+	db infrastracture.PgxDB,
 ) {
 	port := os.Getenv("ServerPort")
 
@@ -55,6 +56,10 @@ func Bootstrap(
 			return nil
 		},
 		OnStop: func(ctx context.Context) error {
+			err := db.Conn.Close(ctx)
+			if err != nil {
+				return err
+			}
 			return s.Shutdown(ctx)
 		},
 	})
