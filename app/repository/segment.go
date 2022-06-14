@@ -17,7 +17,7 @@ type SegmentRepository struct {
 func NewSegmentRepository(
 	logger infrastracture.SegmentLogger,
 	db infrastracture.PgxDB,
-	memoryDB infrastracture.Redis) SegmentRepository {
+	memoryDB infrastracture.Asynq) SegmentRepository {
 	return SegmentRepository{
 		db:       &db,
 		logger:   &logger,

@@ -6,6 +6,7 @@ import (
 	"challange/app/repository"
 	"challange/app/routes"
 	"challange/app/services"
+	"challange/app/tasks"
 	"context"
 	"go.uber.org/fx"
 	"log"
@@ -21,6 +22,7 @@ var BootstrapModule = fx.Options(
 	services.Module,
 	controller.Module,
 	routes.Module,
+	tasks.Module,
 	fx.Invoke(Bootstrap),
 )
 
