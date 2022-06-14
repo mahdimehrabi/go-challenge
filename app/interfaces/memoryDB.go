@@ -1,12 +1,11 @@
 package interfaces
 
+import "time"
+
 type MemoryDB interface {
-	//save a sorted set
-	SaveSortedSet(key string, member string, score string)
+	//store in memory db
+	Set(key string, value string, expiration time.Duration) error
 
-	//get a sorted set
-	GetSortedSet(key string, member string, score string)
-
-	//get list of sorted set by key in reverse order
-	RevListStoredSet(key string)
+	//get from memory db
+	Get(key string) (string, error)
 }
