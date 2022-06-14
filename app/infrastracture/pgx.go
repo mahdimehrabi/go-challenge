@@ -62,3 +62,12 @@ func (db *PgxDB) Query(
 	}
 	return slc, nil
 }
+
+//QueryRow => for get signle row
+func (db *PgxDB) QueryRow(
+	ctx context.Context,
+	query string,
+	parameters []interface{},
+	scans ...interface{}) error {
+	return db.Conn.QueryRow(ctx, query, parameters...).Scan(scans...)
+}

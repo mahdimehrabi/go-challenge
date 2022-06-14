@@ -18,7 +18,7 @@ type DB interface {
 		ctx context.Context,
 		query string,
 		parameters []interface{},
-		scans []interface{}) error
+		scans ...interface{}) error
 
 	//get multiple rows
 	Query(ctx context.Context,

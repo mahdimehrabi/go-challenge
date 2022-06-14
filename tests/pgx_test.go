@@ -50,4 +50,32 @@ func TestPgx(t *testing.T) {
 			"pgx query values problem:%v is not equal to:%v",
 			segment, values[len(values)-1][1])
 	}
+
+	//----test QueryRow method -----
+	var newID string
+	var newSegment string
+	var newExpiredSegment time.Time
+	err = db.QueryRow(
+		ctx,
+		"SELECT * FROM users WHERE id=$1",
+		[]interface{}{id},
+		&newID, &newSegment, &newExpiredSegment)
+	if err != nil {
+		t.Errorf("Pgx query row problem: %s", err.Error())
+	}
+	if newID != id {
+		t.Errorf(
+			"pgx query row: %v is not equal to:%v",
+			id, newID)
+	}
+	if newSegment != segment {
+		t.Errorf(
+			"pgx query row: %v is not equal to:%v",
+			segment, newSegment)
+	}
+	if newExpiredSegment.Equal(expired) {
+		t.Errorf(
+			"pgx query row: %v is not equal to:%v",
+			newExpiredSegment, expired)
+	}
 }
