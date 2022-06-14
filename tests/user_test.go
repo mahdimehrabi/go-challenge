@@ -13,7 +13,7 @@ func TestSaveUser(t *testing.T) {
 	l := infrastracture.NewLogger()
 	rd := infrastracture.NewRedis()
 	db := infrastracture.NewPgxDB(l)
-	ur := repository.NewUserRepository(l, db, rd)
+	ur := repository.NewSegmentRepository(l, db, rd)
 	rand := infrastracture.NewRandom()
 
 	var usersCount int64
@@ -37,7 +37,7 @@ func TestListUser(t *testing.T) {
 	l := infrastracture.NewLogger()
 	rd := infrastracture.NewRedis()
 	db := infrastracture.NewPgxDB(l)
-	ur := repository.NewUserRepository(l, db, rd)
+	ur := repository.NewSegmentRepository(l, db, rd)
 	rand := infrastracture.NewRandom()
 
 	id := rand.GenerateRandomStr(10)
