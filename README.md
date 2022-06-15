@@ -55,7 +55,7 @@ generate some users (seed), this command create between 1 and 1000 random users
 now please edit a file(just add new line or tab or space is enought) and save (to restart delve server) 
 or restart docker-compose `docker-compose down && docker-compsoe up -d` <br>
 #### Now you can send your requests to Endpoints 
-POST `localhost:8000/users`  Create new user send 
+POST `localhost:8000/users`  Create new user send <br>
 example **request** data
 ```
 {
