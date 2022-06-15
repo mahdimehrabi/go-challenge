@@ -48,6 +48,9 @@ create database <br>
 run migrations <br>
 `make migrate-up` <br>
 
+run tests <br>
+`make test-all`
+
 generate some users (seed), this command create between 1 and 1000 random users 
 ,so feel free to use this command as many times as you want to create more users.<br>
 `make seed`
