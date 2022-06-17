@@ -4,7 +4,9 @@ for best performance , scalability.<br>
 for the purpose of this project I didn't implement all needed features 
 so interfaces don't contain all needed methods ,
 and I didn't implement JSON response generator,swagger,sentry etc.
-and also I didn't implement docker-compose version for production
+and also I didn't implement docker-compose version for production.<br>
+I know using real database for writing test is wrong , and I must write mock for that,
+but for the purpose of this project and saving time I kept it simple.
 <br>
 
 ## More Scalability
